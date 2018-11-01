@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
   db:
@@ -9,21 +9,29 @@ services:
       MYSQL_DATABASE: omeka
       MYSQL_USER: omeka
       MYSQL_PASSWORD: omeka
-
-  db_admin:
-    image: phpmyadmin/phpmyadmin
-    restart: always
-    links:
-     - db:db
-    ports:
-      - "8080:80"
-
+    volumes:
+      - omeka-db:/var/lib/mysql
   omeka:
     depends_on:
       - db
-    build: ./
-    image: klokantech/omeka
-    ports:
-      - "80:80"
+    image: scbd/omeka
     restart: always
-
+    volumes:
+       - omeka-html:/var/www/html
+    networks: 
+      - websites
+      - default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:virtual-kiosk.cbd.int,omeka"      
+      - "traefik.docker.network=websites"
+volumes:
+  omeka-html:
+    external: true #force user to create its own volume with driver of his choice
+  omeka-db:
+    external: true #force user to create its own volume with driver of his choice
+networks:
+  default:
+  websites:
+    external:
+      name: websites
