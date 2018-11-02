@@ -3,14 +3,14 @@
 ## Prerequisite  
 
 ### Networks
-- `websites` (from load-balancer)
+- `webgateway` (from load-balancer)
 
 ```
-docker network create --driver=DRIVER_NAME websites
+docker network create --driver=DRIVER_NAME webgateway
 ```
 OR
 ```
-docker network create  websites
+docker network create  webgateway
 ```
 
 ### Volumes

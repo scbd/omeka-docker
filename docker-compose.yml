@@ -19,12 +19,13 @@ services:
     volumes:
        - omeka-html:/var/www/html
     networks: 
-      - websites
+      - webgateway
       - default
     labels:
       - "traefik.enable=true"
-      - "traefik.frontend.rule=Host:virtual-kiosk.cbd.int,omeka"      
-      - "traefik.docker.network=websites"
+      - "traefik.frontend.rule=Host:virtual-kiosk.cbd.int"      
+      - "traefik.docker.network=webgateway"
+      
 volumes:
   omeka-html:
     external: true #force user to create its own volume with driver of his choice
@@ -32,6 +33,6 @@ volumes:
     external: true #force user to create its own volume with driver of his choice
 networks:
   default:
-  websites:
+  webgateway:
     external:
-      name: websites
+      name: webgateway
