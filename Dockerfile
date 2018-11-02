@@ -36,6 +36,9 @@ COPY ./db.ini /var/www/html/db.ini
 COPY ./.htaccess /var/www/html/.htaccess
 COPY ./imagemagick-policy.xml /etc/ImageMagick/policy.xml
 
+RUN echo "post_max_size = 50M"        > /usr/local/etc/php/conf.d/max-file-size.ini
+RUN echo "upload_max_filesize = 50M" >> /usr/local/etc/php/conf.d/max-file-size.ini
+
 VOLUME /var/www/html
 
 CMD ["apache2-foreground"]
